@@ -10,41 +10,57 @@ export default function Home() {
   }, []);
 
   const fetchTodos = async () => {
-    const response = await fetch("/api/todos");
-    const data = await response.json();
-    setTodos(data);
+    try {
+      const response = await fetch("/api/todos");
+      const data = await response.json();
+      setTodos(data);
+    } catch (error) {
+      console.error("Failed to fetch todos", error);
+    }
   };
 
   const addTodo = async () => {
     if (!newTodo.trim()) return;
-    const response = await fetch("/api/todos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: newTodo }),
-    });
-    const data = await response.json();
-    setTodos([...todos, data]);
-    setNewTodo("");
+    try {
+      const response = await fetch("/api/todos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: newTodo }),
+      });
+      const data = await response.json();
+      setTodos([...todos, data]);
+      setNewTodo("");
+    } catch (error) {
+      console.error("Failed to add todo", error);
+    }
   };
 
   const toggleTodo = async (id) => {
     const todo = todos.find((todo) => todo.id === id);
-    const response = await fetch("/api/todos", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, completed: !todo.completed }),
-    });
-    const updatedTodo = await response.json();
-    setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
+    try {
+      const response = await fetch("/api/todos", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, completed: !todo.completed }),
+      });
+      const updatedTodo = await response.json();
+      setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
+    } catch (error) {
+      console.error("Failed to update todo", error);
+    }
   };
 
   const deleteTodo = async (id) => {
-    await fetch("/api/todos", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-    setTodos(todos.filter((todo) => todo.id !== id));
+    try {
+      await fetch("/api/todos", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      setTodos(todos.filter((todo) => todo.id !== id));
+    } catch (error) {
+      console.error("Failed to delete todo", error);
+    }
   };
 
   return (
