@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@prisma/client": "^5.17.0",
     "autoprefixer": "^10.4.19",
     "next": "^14.2.5",
     "react": "^18.3.1",
@@ -15,6 +16,7 @@
     "tailwindcss": "^3.4.7"
   },
   "devDependencies": {
-    "postcss": "^8.4.40"
+    "postcss": "^8.4.40",
+    "prisma": "^5.17.0"
   }
 }
